@@ -2,6 +2,12 @@ on: push
 
 jobs:
     job1:
+        name: npm-build任务
         runs-on: ubuntu-latest
         steps:
-            - run: uname
+            - name: 读取仓库内容
+              uses: actions/checkout@v4
+            - name: 安装依赖
+              run: npm install
+            - name: 打包
+              run: npm run build
