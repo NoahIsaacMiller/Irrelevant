@@ -10,4 +10,4 @@ jobs:
             - name: 安装依赖
               run: cd aaa && npm install
             - name: 打包
-              run: npm run build
+              run: cd aaa && npm run build
