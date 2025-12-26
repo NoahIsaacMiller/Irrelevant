@@ -1,0 +1,28 @@
+name: 部署Flask服务
+
+env:
+  PYTHON_VERSION: "3.8"
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  build-flask:
+    name: flask-build任务
+    runs-on: ubuntu-latest
+    outputs:
+      build-hash: ${{ steps.hash.outputs.hash }}
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+
+      - name: 搭建Python3.8 环境
+        uses: actions/setup-python@v3.0.0
+        with:
+          node-version: ${{ env.PYTHON_VERSION }}
+          cache: "pip"
+
+      - name: 安装依赖
+        run: pip install -r requirements.txt
