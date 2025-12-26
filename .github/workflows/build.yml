@@ -1,0 +1,36 @@
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+jobs:
+  build-frontend:
+    name: npm-build任务
+    runs-on: ubuntu-latest
+    outputs:
+      build-hash: ${{ steps.hash.outputs.hash }}
+    steps:
+      - name: 拉取仓库代码
+        uses: actions/checkout@v4
+
+      - name: 搭建Node.js 20 环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: 安装依赖
+        run: npm ci
+
+      - name: 打包
+        run: npm run build
+
+      - name: 生成构建产物哈希
+        id: hash
+        run: echo "hash=$(find dist -type f -print0 | xargs -0 sha256sum | sha256sum | cut -d' ' -f1)" >> $GITHUB_OUTPUT
+
+      - name: 缓存构建产物
+        uses: actions/cacahe@v3
+        with:
+          path: dist
+          key: ${{ runner.os }}-dist-${{ steps.hash.outputs.hash }}
