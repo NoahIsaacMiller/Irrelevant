@@ -12,8 +12,6 @@ jobs:
   build-flask:
     name: flask-build任务
     runs-on: ubuntu-latest
-    outputs:
-      build-hash: ${{ steps.hash.outputs.hash }}
     steps:
       - name: 拉取仓库代码
         uses: actions/checkout@v4
