@@ -21,7 +21,7 @@ jobs:
       - name: 搭建Python3.8 环境
         uses: actions/setup-python@v3.0.0
         with:
-          node-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ env.PYTHON_VERSION }}
           cache: "pip"
 
       - name: 安装依赖
